@@ -1,0 +1,168 @@
+.aboutProject {
+  max-width: 1280px;
+  margin: 110px auto;
+}
+
+.aboutProject__textItem {
+  display: flex;
+  gap: 30px;
+  max-width: 1280px;
+  margin: 70px 0 0 0;
+}
+
+.aboutProject__title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  border-bottom: 1px solid #000;
+  padding-bottom: 23px;
+  margin: 0;
+}
+
+.aboutProject__text-title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.aboutProject__text {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.aboutProject__grid {
+  margin-top: 110px;
+  line-height: 17px;
+
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  font-size: 14px;
+}
+
+.aboutProject__grid-element {
+  display: flex;
+  margin: 0;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  background-color: #f2f2f2;
+  color: #000;
+  justify-content: center;
+}
+
+.aboutProject__grid-green {
+  background-color: #2be080;
+  color: black;
+}
+
+.aboutProject__grid_text {
+  display: flex;
+  margin: 0;
+  justify-content: center;
+  padding-top: 13px;
+  color: #a0a0a0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+}
+@media screen and (max-width: 768px) {
+  .aboutProject {
+    margin: 90px 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutProject__text {
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutProject__grid {
+    margin-top: 93px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .aboutProject__textbox {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .aboutProject__textbox-title {
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .aboutProject {
+    margin: 70px 30px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .aboutProject__textbox-title {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .aboutProject__grid {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutProject {
+    margin: 70px 18px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .aboutProject__text {
+    font-size: 11px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .aboutProject__text-title {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .aboutProject__title {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .aboutProject__textItem {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .aboutProject__grid {
+    font-size: 11px;
+    line-height: 15px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .aboutProject__grid_text {
+    font-size: 11px;
+    line-height: 13px;
+  }
+}

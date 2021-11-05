@@ -1,0 +1,107 @@
+.register{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 70px;
+
+}
+
+.register__title{
+  font-size:24px;
+  line-height:29px;
+  font-weight:500;
+  margin-top:40px;
+  margin-bottom: 40px;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.register__container{
+  min-width: 396px;
+}
+
+
+
+.form__button{
+  font-size:14px;
+  line-height:17px;
+  font-weight:500;
+  color: #fff;
+  background:#000;
+  border-radius: 3px;
+  padding-top: 13px;
+  padding-bottom: 15px;
+  margin-top:69px;
+  transition: .3s ease;
+}
+
+
+.register__text{
+  display: flex;
+  justify-content: center;
+  font-size:14px;
+  line-height:17px;
+  color: #A0A0A0;
+  gap: 6px;
+  margin-top:16px;
+}
+
+.register__link{
+  color:#3456F3;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity .3s ease;
+}
+
+.register__link:hover{
+  opacity: .5;
+}
+
+@media screen and (max-width: 768px){
+  .register{
+    padding-top: 0;
+    justify-content: center;
+    height: 100vh;
+}
+}
+
+@media screen and (max-width: 500px){
+  .register__container{
+    min-width: 260px;
+}
+}
+
+@media screen and (max-width: 500px){
+  .register__link-logo{
+    display: flex;
+    justify-content:center;
+}
+}
+
+@media screen and (max-width: 500px){
+  .register__title{
+    display: flex;
+    justify-content:center;
+    margin-top: 50px;
+    margin-bottom:80px;
+}
+}
+
+@media screen and (max-width: 500px){
+  .form__button{
+    margin-top: 157px;
+    font-size: 12px;
+    line-height:17px;
+}
+}
+
+@media screen and (max-width: 500px){
+  .register__text{
+    font-size:12px;
+    line-height:15px;
+}
+}
