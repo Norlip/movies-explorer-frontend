@@ -17,7 +17,6 @@ function App() {
     name: 'Вадим',
     email: 'hocice5682@ecofreon.com',
   });
-  const log = true;
   const history = useHistory();
 
   const handleSignUp = (data) => {
@@ -41,14 +40,14 @@ function App() {
     <>
       <Switch>
         <Route exact path="/">
-          <Main loggedIn={log}
+          <Main loggedIn={loginIn}
           />
         </Route>
         <Route exact path="/movies">
-          <Movies loggedIn={log} />
+          <Movies loggedIn={loginIn} />
         </Route>
         <Route exact path="/saved-movies">
-          <SavedMovies loggedIn={log} />
+          <SavedMovies loggedIn={loginIn} />
         </Route>
         <Route exact path="/signup">
           <Registration onLogIn={handleSignUp} />
@@ -57,7 +56,7 @@ function App() {
           <Login onLogIn={handleSignIn} />
         </Route>
         <Route exact path="/profile">
-          <Profile loggedIn={log} currentUser={currentUser} onSignOut={handleSignOut} />
+          <Profile loggedIn={loginIn} currentUser={currentUser} onSignOut={handleSignOut} />
         </Route>
         <Route exact path="/404">
           <NotFound />
