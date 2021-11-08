@@ -1,15 +1,16 @@
 import React from 'react';
 import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
 import Movies from '../../../utils/Movies.json';
 
-function MoviesCardList() {
+function MoviesCardList(props) {
+  const Component = props.component;
+
   return (
     <>
       <section className='movies-card-list'>
 
         {Movies.map((movie, index) => (
-          <MoviesCard key={index} name={movie.nameRU}
+          <Component key={index} name={movie.nameRU}
             duration={movie.duration} image={movie.image} />
         ))}
 

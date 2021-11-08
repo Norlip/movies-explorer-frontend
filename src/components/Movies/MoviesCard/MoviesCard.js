@@ -19,8 +19,8 @@ function MoviesCard(props) {
             <p className="movies-card__subtitle">{props.duration}</p>
           </div>
           <div className="movies-card__favorite-button" onClick={savedClick}>
-            {saved ? (<button className="movies-card__save" alt="Добавить в избранное" ></button>
-            ) : <button className="movies-card__saved" alt="Добавить в избранное" ></button>}
+            {saved ? (<button className="movies-card__saved" alt="Добавить в избранное" ></button>
+            ) : <button className="movies-card__save" alt="Добавить в избранное" ></button>}
           </div>
         </div>
 
