@@ -1,0 +1,32 @@
+import React from 'react';
+import './MoviesCard.css';
+
+function SavedMoviesCard(props) {
+  const [saved, setSeved] = React.useState(false);
+
+  function savedClick() {
+    setSeved(!saved);
+  }
+
+  return (
+
+    <li>
+      <article className="movies-card">
+        <img className="movies-card__image" src={props.image} alt="Фото" />
+        <div className="movies-card__header">
+          <div className="movies-card__text-container">
+            <h2 className="movies-card__title">{props.name}</h2>
+            <p className="movies-card__subtitle">{props.duration}</p>
+          </div>
+          <div className="movies-card__favorite-button" onClick={savedClick}>
+          <button className="movies-card__delete" alt="Добавить в избранное" />
+
+          </div>
+        </div>
+
+      </article>
+    </li >
+
+  );
+}
+export default SavedMoviesCard;
