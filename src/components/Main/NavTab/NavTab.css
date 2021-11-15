@@ -4,7 +4,8 @@
   margin: 0 auto 0;
   height: 66px;
   display: flex;
-  align-items: center;
+  align-items: center;  font-family: Inter;
+
   justify-content: center;
 }
 

@@ -118,7 +118,9 @@
     width: 260px;
     height: 168px;
   }
-}
+} li {
+  list-style-type: none; /* Убираем маркеры */
+ }
 @media (max-width: 625px) {
   .movies-card {
     width: 300px;

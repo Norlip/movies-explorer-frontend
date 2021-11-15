@@ -5,7 +5,8 @@
   background: url("../../../images/header__back.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 320px 320px;
+  background-size: 320px 320px;  font-family: Inter;
+
 }
 
 .promo__container {

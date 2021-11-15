@@ -3,7 +3,8 @@
   margin: 0 auto;
   padding: 70px 70px 49px 70px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  font-family: Inter;
+
 }
 
 @media screen and (max-width: 840px) {

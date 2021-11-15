@@ -1,13 +1,21 @@
 .aboutMe {
   max-width: 1280px;
   margin: 0 auto;
+  font-family: Inter;
+
   margin: 110px 70px 0;
 }
 
 .title {
   margin: 0;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
   font-size: 22px;
   line-height: 27px;
+  /* identical to box height */
+
   letter-spacing: -0.04em;
   font-weight: normal;
   border-bottom: 1px solid #000;
@@ -28,17 +36,24 @@
 }
 
 .aboutMe__title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
   font-size: 50px;
   line-height: 58px;
+  /* identical to box height, or 116% */
+
   letter-spacing: -0.04em;
-  font-weight: normal;
   margin: 0;
 }
 
 .aboutMe__subtitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
   font-size: 18px;
   line-height: 20px;
-  font-weight: 500;
+  /* identical to box height, or 111% */
   margin: 0;
   margin: 18px 0px 26px;
 }
@@ -69,10 +84,14 @@
 }
 
 .aboutMe__portfolio-title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
   font-size: 18px;
   line-height: 20px;
+  /* identical to box height, or 111% */
+
   color: #a0a0a0;
-  font-weight: 400;
   margin: 0;
   margin-top: 101px;
 }

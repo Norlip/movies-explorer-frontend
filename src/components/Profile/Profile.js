@@ -1,37 +1,73 @@
 import React from 'react';
 import './Profile.css';
+import { Link } from 'react-router-dom';
 import Header from '../Header/Header';
+import useFormWithValidation from '../../utils/FormValidator';
+import { currentUserContext } from '../context/CurrentUserContext';
 
 function Profile(props) {
+  const currentUser = React.useContext(currentUserContext);
+  const validator = useFormWithValidation();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onUpdateUser({
+      name: 'name' in validator.values ? validator.values.name : currentUser.name,
+      email: 'email' in validator.values ? validator.values.email : currentUser.email,
+    });
+  }
+
+  function handleLogOut() {
+    localStorage.clear();
+    props.onLogOut(false);
+  }
   return (
     <>
       <Header loggedIn={props.loggedIn} />
 
       <div className="profile">
-        <main className="profile__content">
-          <h1 className="profile__title">Привет, Вадим!</h1>
-          <form className="profile__form" name="user-data">
+        <form className="profile__content" onReset={validator.resetForm}
+          onSubmit={handleSubmit}
+          noValidate>
+          <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
+          <div className="profile__form" name="user-data">
             <label className="profile__label" htmlFor="user-name">
               <span className="profile__subtitle">Имя</span>
-              <input className="profile__input" type="text" name="user-name" required />
+              <input className="profile__input" type="text" minLength="1"
+                maxLength="30"
+                required
+                id="name"
+                name="name"
+                defaultValue={currentUser.name}
+                onChange={validator.handleChange} />
             </label>
+            <span
+              className={`form__error ${validator.errors.name && validator.errors.name.length > 0 && 'form__error_active'}`}> {validator.errors.name}
+            </span>
             <label className="profile__label" htmlFor="user-email">
               <span className="profile__subtitle profile__subtitle_bottom">E-mail</span>
               <input
                 className="profile__input profile__input_bottom"
                 type="email"
-                name="user-email"
-                required
+                id="email"
+                name="email"
+                required defaultValue={currentUser.email}
+                onChange={validator.handleChange}
               />
             </label>
-            <button className="profile__btn profile__btn_type_edit" type="submit">
+            <span className={`form__error ${validator.errors.email && validator.errors.email.length > 0 && 'form__error_active'}`}
+            >{validator.errors.email}
+            </span>
+            <button className="profile__btn profile__btn_type_edit" disabled={!validator.isValid}
+              type="submit">
               Редактировать
             </button>
-          </form>
-          <button className="profile__btn profile__btn_type_logout" type="button">
+          </div>
+          <Link to="/signin"
+            onClick={handleLogOut} className="profile__btn profile__btn_type_logout" type="button">
             Выйти из аккаунта
-          </button>
-        </main>
+          </Link>
+        </form>
       </div>
     </>
 

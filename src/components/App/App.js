@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.css';
 import {
   Route, Switch, Redirect, useHistory,
 } from 'react-router-dom';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { currentUserContext } from '../context/CurrentUserContext';
 import Main from '../Main/Main';
 import NotFound from '../NotFound/NotFound';
 import Login from '../Login/Login';
@@ -10,61 +11,188 @@ import Registration from '../Register/Register';
 import Profile from '../Profile/Profile';
 import SavedMovies from '../Movies/SavedMovies/SavedMovies';
 import Movies from '../Movies/Movies';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import mainApi from '../../utils/MainApi';
 
 function App() {
-  const [loginIn, setloginIn] = React.useState(true);
-  const [currentUser, setCurrentUser] = React.useState({
-    name: 'Вадим',
-    email: 'hocice5682@ecofreon.com',
-  });
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState('');
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+
   const history = useHistory();
 
-  const handleSignUp = (data) => {
-    setCurrentUser({
-      name: 'Имя',
-      email: data.email,
-    });
-    setloginIn(true);
-    history.push('/movies');
-  };
+  function showInfoPopup(error) {
+    if (error.message) {
+      setErrorMessage(error.message);
+    } else {
+      setErrorMessage(error);
+    }
+    setIsInfoTooltipOpen(true);
+  }
 
-  const handleSignOut = () => {
-    setloginIn(false);
-  };
+  function showError(error) {
+    if (error.message) {
+      setErrorMessage(error.message);
+    } else {
+      setErrorMessage(error);
+    }
+  }
 
-  const handleSignIn = () => {
-    setloginIn(true);
-  };
+  React.useEffect(() => {
+    const tockenCheck = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        mainApi.checkToken(token)
+          .then(() => {
+            setLoggedIn(true);
+            history.push('/movies');
+          })
+          .catch((error) => {
+            showInfoPopup(error);
+            history.push('/signin');
+          });
+      }
+    };
+    tockenCheck();
+  }, [history]);
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      mainApi.getUserData()
+        .then((userData) => {
+          setCurrentUser(userData);
+        })
+        .catch((error) => {
+          showInfoPopup(error);
+        });
+    }
+  }, [loggedIn]);
+
+  function onLogin(email, password) {
+    mainApi.authorize(email, password)
+      .then(() => {
+        setLoggedIn(true);
+        history.push('/movies');
+      })
+      .catch((error) => {
+        showError(error);
+      })
+      .finally(setErrorMessage(''));
+  }
+
+  function onRegister(name, email, password) {
+    mainApi.register(name, email, password)
+      .then(() => {
+        history.push('/movies');
+      })
+      .then(() => {
+        onLogin(email, password);
+      })
+      .catch((error) => {
+        showError(error);
+      });
+  }
+
+  function handleUpdateUser(userData) {
+    mainApi.updateUser(userData)
+      .then((newUserData) => {
+        showInfoPopup({ message: 'Профиль успешно обновлен' });
+        setCurrentUser(newUserData);
+      })
+      .catch((error) => {
+        showInfoPopup(error);
+      });
+  }
+
+  function closePopup() {
+    setIsInfoTooltipOpen(false);
+  }
+
+  const routesPathsHeaderArray = [
+    '/signin',
+    '/signup',
+    '/404',
+  ];
+
+  const routesPathsFooterArray = [
+    '/signin',
+    '/signup',
+    '/profile',
+    '/404',
+  ];
 
   return (
+
     <>
-      <Switch>
-        <Route exact path="/">
-          <Main loggedIn={loginIn}
+      <currentUserContext.Provider value={currentUser}>
+        <Switch>
+          <Route exact path="/">
+            <Main loggedIn={loggedIn}
+              routesPathsHeaderArray={routesPathsHeaderArray}
+              routesPathsFooterArray={routesPathsFooterArray} />
+          </Route>
+          <ProtectedRoute
+            exact
+            path="/movies"
+            component={Movies}
+            showError={showInfoPopup}
+            routesPathsHeaderArray={routesPathsHeaderArray}
+            routesPathsFooterArray={routesPathsFooterArray}
+            loggedIn={loggedIn}
           />
-        </Route>
-        <Route exact path="/movies">
-          <Movies loggedIn={loginIn} />
-        </Route>
-        <Route exact path="/saved-movies">
-          <SavedMovies loggedIn={loginIn} />
-        </Route>
-        <Route exact path="/signup">
-          <Registration onLogIn={handleSignUp} />
-        </Route>
-        <Route exact path="/signin">
-          <Login onLogIn={handleSignIn} />
-        </Route>
-        <Route exact path="/profile">
-          <Profile loggedIn={loginIn} currentUser={currentUser} onSignOut={handleSignOut} />
-        </Route>
-        <Route exact path="/404">
-          <NotFound />
-        </Route>
-        <Route exact path="*">
-          <Redirect to="/404" />
-        </Route>
-      </Switch>
+          <ProtectedRoute
+            exact
+            path="/saved-movies"
+            loggedIn={loggedIn}
+            component={SavedMovies}
+            showError={showInfoPopup} routesPathsHeaderArray={routesPathsHeaderArray}
+            routesPathsFooterArray={routesPathsFooterArray}
+          />
+          <Route exact path="/signup">
+            {
+              loggedIn
+                ? <Redirect to='/movies' />
+                : <Registration
+                  onRegister={onRegister}
+                  errorMessage={errorMessage}
+                />
+            }
+          </Route>
+          <Route exact path="/signin">
+            {
+              loggedIn
+                ? <Redirect to="/movies" />
+                : <Login
+                  onLogin={onLogin}
+                  errorMessage={errorMessage}
+                />
+            }
+          </Route>
+          <ProtectedRoute
+            exact
+            path="/profile"
+            loggedIn={loggedIn}
+            component={Profile}
+            onLogOut={setLoggedIn} routesPathsHeaderArray={routesPathsHeaderArray}
+            routesPathsFooterArray={routesPathsFooterArray}
+            onUpdateUser={handleUpdateUser}
+          />
+          <Route exact path="/404">
+            <NotFound />
+          </Route>
+          <Route
+            exact
+            path="*">
+            <Redirect to="/404" />
+          </Route>
+        </Switch>
+      </currentUserContext.Provider>
+      <InfoTooltip
+        isOpen={isInfoTooltipOpen}
+        onClose={closePopup}
+        errorMessage={errorMessage}
+      />
     </>
   );
 }

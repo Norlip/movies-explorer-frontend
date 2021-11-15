@@ -20,3 +20,12 @@
     font-weight: 500;
     font-style: normal;
 }
+
+@font-face {
+  font-family: 'Suisse Intl';
+  src:
+      url('Suisse Intl Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+

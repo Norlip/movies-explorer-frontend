@@ -1,21 +1,24 @@
 import React from 'react';
 import './MoviesCardList.css';
-import Movies from '../../../utils/Movies.json';
+import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList(props) {
-  const Component = props.component;
-
   return (
     <>
-      <section className='movies-card-list'>
-
-        {Movies.map((movie, index) => (
-          <Component key={index} name={movie.nameRU}
-            duration={movie.duration} image={movie.image} />
-        ))}
-
-      </section>
-      <button className='movies-card-list__btn'>Ещё</button>
+      {props.movies.length === 0
+        ? <p className="movies-notfound">Ничего не найдено</p>
+        : <ul className="movies__card-list">
+          {props.movies.map((movie) => (
+            <MoviesCard
+              key={movie.movieId}
+              data={movie}
+              onMovieLike={props.onMovieLike}
+              onMovieDislike={props.onMovieDislike}
+              onMovieDelete={props.onMovieDelete}
+              isSaved={props.isSaved}
+            />))}
+        </ul>
+      }
     </>
   );
 }

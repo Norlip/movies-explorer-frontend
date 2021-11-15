@@ -5,7 +5,8 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  grid-gap: 30px 24px;
+  grid-gap: 30px 24px;  font-family: Inter;
+
   justify-items: center;
   padding-left: 0;
 }
@@ -20,6 +21,7 @@
   object-fit: cover;
   width: 364px;
   height: 203px;
+  cursor: pointer;
 }
 
 .movies-card-article__header{
@@ -53,5 +55,14 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: .5s ease;
+  background: url(../../../images/saved.svg);
 }
 
+.movies-card-article__favorite-button-saved{
+  background: url(../../../images/save.svg);
+}
+
+.movies-card-article__favorite-button-remove{
+  background: url(../../../images/delete_icon.svg);
+}
