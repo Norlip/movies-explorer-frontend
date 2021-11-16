@@ -18,7 +18,7 @@ function MoviesCard(props) {
         director: props.data.director || 'не указано',
         duration: props.data.duration || 'не указано',
         description: props.data.description || 'не указано',
-        image: props.data.image || '',
+        image: props.data.image || 'https://freesoft.ru/storage/images/news/1/6/555/555_text.png',
         trailer: props.data.trailer || 'https://www.youtube.com',
         nameRU: props.data.nameRU || 'не указано',
         nameEN: props.data.nameEN || 'не указано',

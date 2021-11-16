@@ -97,7 +97,8 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: 'http://norlip.movie.nomoredomains.monster',
+  baseUrl: 'https://norlip.movie.nomoredomains.monster',
+
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

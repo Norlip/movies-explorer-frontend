@@ -20,7 +20,7 @@ function SavedMovies(props) {
         setMoviesToShow(movies);
       })
       .catch((error) => props.showError(error));
-  }, [props]);
+  }, [moviesToShow]);
 
   function handleSeach(query, isShortMovie) {
     const filterItems = filterFilms(savedMovies, query, isShortMovie);
@@ -30,9 +30,9 @@ function SavedMovies(props) {
   function handleMovieDelete(movie) {
     mainApi.dislikeMovie(movie.data._id)
       .then((movieId) => {
-        const arr = savedMovies.filter((el) => el._id !== movieId._id);
+        const arr = savedMovies.filter((el) => el.id !== movieId._id);
         setSavedMovies(arr);
-        const arr2 = moviesToShow.filter((el) => el._id !== movieId._id);
+        const arr2 = moviesToShow.filter((el) => el.id !== movieId._id);
         setMoviesToShow(arr2);
       })
       .catch((error) => props.showError(error));
