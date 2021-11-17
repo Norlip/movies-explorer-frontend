@@ -29,7 +29,8 @@ function Register(props) {
                 className="form__input"
                 type="text"
                 name="name"
-                id="name"
+                id="name" pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$"
+
                 minLength="2"
                 maxLength="30"
                 required
@@ -44,7 +45,8 @@ function Register(props) {
                 className="form__input"
                 type="text"
                 name="email"
-                id="email"
+                id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+
                 placeholder="Введите email"
                 required
                 onChange={validator.handleChange}

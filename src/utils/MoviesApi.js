@@ -4,6 +4,12 @@ class MoviesApi {
     this._headers = config.headers;
   }
 
+  // _responseResult(res) {
+  //   if (res.ok) {
+  //     return res.json();
+  //   }
+  //   return Promise.reject(new Error(`Ошибка: ${res.status}`));
+  // }
   _responseResult(res) {
     return res.json()
       .then((json) => {

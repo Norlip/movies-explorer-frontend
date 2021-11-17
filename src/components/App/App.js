@@ -26,7 +26,7 @@ function App() {
     if (error.message) {
       setErrorMessage(error.message);
     } else {
-      setErrorMessage(error);
+      setErrorMessage(error.validation.body.message);
     }
     setIsInfoTooltipOpen(true);
   }
@@ -35,7 +35,7 @@ function App() {
     if (error.message) {
       setErrorMessage(error.message);
     } else {
-      setErrorMessage(error);
+      setErrorMessage(error.validation.body.message);
     }
   }
 

@@ -16,7 +16,6 @@ function MoviesCardList(props) {
               onMovieDislike={props.onMovieDislike}
               onMovieDelete={props.onMovieDelete}
               isSaved={props.isSaved}
-              setDele={props.setDele}
             />))}
         </ul>
       }

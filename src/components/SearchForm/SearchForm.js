@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import './SearchForm.css';
 import useFormWithValidation from '../../utils/FormValidator';
@@ -5,17 +6,19 @@ import useFormWithValidation from '../../utils/FormValidator';
 function SearchForm(props) {
   const [isChecked, setIsChecked] = React.useState(false);
   const validator = useFormWithValidation();
-
+  const [name, setName] = React.useState(' ');
   function handleSubmit(event) {
     event.preventDefault();
     props.searchCallBack(validator.values.filmSearch, isChecked);
     event.target.reset();
+    setName(validator.values.filmSearch);
   }
-
-  function handleCheckboxChange(event) {
+  function handleCheck(event) {
     const value = event.target.checked;
+    props.check(name, isChecked);
     setIsChecked(value);
   }
+
   return (
     <>
       <div className="search">
@@ -53,7 +56,7 @@ function SearchForm(props) {
             type="checkbox"
             className="checkbox__input"
             name="shortFilm"
-            onChange={handleCheckboxChange}
+            onChange={handleCheck}
           />
           <label htmlFor="search-checkbox" className="checkbox__label">Switch</label>
         </div>

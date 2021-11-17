@@ -51,10 +51,10 @@
   align-items: center;
   margin-top: 32px;
   margin-bottom: 49px;
-  justify-content: sta;
 }
 
 .checkbox__container {
+  transform: scale(-1, 1);
   position: relative;
   display: inline-block;
 }
@@ -97,14 +97,14 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: #2be080;
+  background-color:  #ebebeb;
   box-shadow: 0 0 0.15625vw rgba(0, 0, 0, 0.45);
   -webkit-transition: left 0.25s ease;
   transition: left 0.25s ease;
 }
 
 .checkbox__input:checked + .checkbox__label::after {
-  background-color: #ebebeb;
+  background-color: #2be080;
 }
 
 .checkbox__input:checked + .checkbox__label::after {

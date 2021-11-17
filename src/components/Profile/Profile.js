@@ -1,6 +1,7 @@
 import React from 'react';
 import './Profile.css';
 import { Link } from 'react-router-dom';
+
 import Header from '../Header/Header';
 import useFormWithValidation from '../../utils/FormValidator';
 import { currentUserContext } from '../context/CurrentUserContext';
@@ -37,7 +38,8 @@ function Profile(props) {
                 maxLength="30"
                 required
                 id="name"
-                name="name"
+                name="name" pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$"
+
                 defaultValue={currentUser.name}
                 onChange={validator.handleChange} />
             </label>
@@ -49,7 +51,8 @@ function Profile(props) {
               <input
                 className="profile__input profile__input_bottom"
                 type="email"
-                id="email"
+                id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+
                 name="email"
                 required defaultValue={currentUser.email}
                 onChange={validator.handleChange}
@@ -63,9 +66,10 @@ function Profile(props) {
               Редактировать
             </button>
           </div>
-          <Link to="/signin"
+          <Link to="/"
             onClick={handleLogOut} className="profile__btn profile__btn_type_logout" type="button">
             Выйти из аккаунта
+
           </Link>
         </form>
       </div>
