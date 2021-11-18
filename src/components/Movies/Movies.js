@@ -83,31 +83,6 @@ function Movies(props) {
       });
   }
 
-  function check(query, isShortMovie) {
-    setIsLoading(true);
-
-    moviesApi.getInitialMovies()
-      .then((movies) => {
-        const filterItems = filterFilms(movies, query, !isShortMovie);
-        const adaptItems = adaptObject(filterItems);
-        const moviesToShow = [];
-        for (let i = 0; i < (Math.min(adaptItems.length, amountMoviesToShow)); i += 1) {
-          const isMovieLiked = likedMovies.filter((el) => el.movieId === adaptItems[i].movieId);
-          moviesToShow.push({ ...adaptItems[i], isLiked: isMovieLiked.length > 0 });
-        }
-        setFilterMovies(adaptItems);
-        setVisibleMovies(moviesToShow);
-        localStorage.setItem('storedMovies', JSON.stringify(adaptItems));
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        props.showError({ message: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз' });
-        setFilterMovies([]);
-        setVisibleMovies([]);
-      });
-  }
-
   function handleMovieLike(movie) {
     mainApi.likeMovie(movie)
       .then((newMovie) => {
@@ -137,6 +112,15 @@ function Movies(props) {
     setVisibleMovies([...visibleMovies, ...arr]);
   }
 
+  const [filterIsOn, setFilterIsOn] = React.useState(false);
+
+  // eslint-disable-next-line max-len
+  const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration < 40);
+
+  const onFilterClick = () => {
+    setFilterIsOn(!filterIsOn);
+  };
+
   return (
     <>
       {useRouteMatch(props.routesPathsHeaderArray) ? null : (
@@ -146,13 +130,13 @@ function Movies(props) {
       )}
       <section className="movies">
         <SearchForm
-          searchCallBack={handleMovieSearch} check={check}
+          searchCallBack={handleMovieSearch} onFilterClick={onFilterClick}
         />
         {
           isLoading
             ? <Preloader />
             : <MoviesCardList
-              movies={visibleMovies}
+              movies={filterIsOn ? filterShortFilm(filterMovies) : filterMovies}
               onMovieLike={handleMovieLike}
               onMovieDislike={handleMovieDislike}
               isSaved={false}

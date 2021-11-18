@@ -6,49 +6,55 @@ import useFormWithValidation from '../../utils/FormValidator';
 function SearchForm(props) {
   const [isChecked, setIsChecked] = React.useState(false);
   const validator = useFormWithValidation();
-  const [name, setName] = React.useState(' ');
-  function handleSubmit(event) {
+  const { filmSearch } = validator.values;
+  const [error, setError] = React.useState('');
+
+  const { handleChange, resetForm } = validator;
+  React.useEffect(() => {
+    resetForm();
+  }, [resetForm]);
+  const handleSubmit = (event) => {
     event.preventDefault();
-    props.searchCallBack(validator.values.filmSearch, isChecked);
-    event.target.reset();
-    setName(validator.values.filmSearch);
-  }
-  function handleCheck(event) {
-    const value = event.target.checked;
-    props.check(name, isChecked);
-    setIsChecked(value);
-  }
+
+    if (!filmSearch) {
+      setError('Нужно ввести ключевое слово');
+      setTimeout(() => {
+        setError('');
+      }, 2000);
+    } else {
+      event.preventDefault();
+      props.searchCallBack(validator.values.filmSearch, isChecked);
+      resetForm();
+    }
+  };
 
   return (
     <>
       <div className="search">
         <form
           className="search__form"
-          onSubmit={handleSubmit}
-          onReset={validator.resetForm}
+          onSubmit={handleSubmit} noValidate
         >
           <input
             className="search__title"
             name="filmSearch"
             type="text"
             placeholder="Фильм"
-            minLength="1"
-            onChange={validator.handleChange}
-            required
+            onChange={handleChange}
+            required autoComplete="off"
+            value={filmSearch || ''}
           />
           <button
             className="search__button"
             type="submit"
-            disabled={!validator.isValid}
           >
             Найти
           </button>
         </form>
       </div>
-      <span
-        className={`search__error ${validator.errors.filmSearch && validator.errors.filmSearch.length > 0 && 'search__error_active'}`}>
-        Введите слово
-      </span>
+      {error && <span
+        className='search__error search__error_active'>
+        {error}      </span>}
       <div className="checkbox">
         <div className="checkbox__container">
           <input
@@ -56,7 +62,7 @@ function SearchForm(props) {
             type="checkbox"
             className="checkbox__input"
             name="shortFilm"
-            onChange={handleCheck}
+            onClick={props.onFilterClick}
           />
           <label htmlFor="search-checkbox" className="checkbox__label">Switch</label>
         </div>

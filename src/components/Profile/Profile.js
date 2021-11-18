@@ -8,13 +8,25 @@ import { currentUserContext } from '../context/CurrentUserContext';
 
 function Profile(props) {
   const currentUser = React.useContext(currentUserContext);
-  const validator = useFormWithValidation();
+  const {
+    values,
+    setValues,
+    handleChange,
+    errors,
+    isValid,
+    setIsValid,
+  } = useFormWithValidation();
+
+  React.useEffect(() => {
+    setValues(currentUser);
+    setIsValid(true);
+  }, [currentUser, setValues, setIsValid]);
 
   function handleSubmit(e) {
     e.preventDefault();
     props.onUpdateUser({
-      name: 'name' in validator.values ? validator.values.name : currentUser.name,
-      email: 'email' in validator.values ? validator.values.email : currentUser.email,
+      name: 'name' in values ? values.name : currentUser.name,
+      email: 'email' in values ? values.email : currentUser.email,
     });
   }
 
@@ -27,7 +39,7 @@ function Profile(props) {
       <Header loggedIn={props.loggedIn} />
 
       <div className="profile">
-        <form className="profile__content" onReset={validator.resetForm}
+        <form className="profile__content"
           onSubmit={handleSubmit}
           noValidate>
           <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
@@ -39,12 +51,15 @@ function Profile(props) {
                 required
                 id="name"
                 name="name" pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$"
+                placeholder="Имя"
+                value={values.name || ''}
+                autoComplete="off"
+                onChange={handleChange}
 
-                defaultValue={currentUser.name}
-                onChange={validator.handleChange} />
+              />
             </label>
             <span
-              className={`form__error ${validator.errors.name && validator.errors.name.length > 0 && 'form__error_active'}`}> {validator.errors.name}
+              className='form__error form__error_active'> {errors.name}
             </span>
             <label className="profile__label" htmlFor="user-email">
               <span className="profile__subtitle profile__subtitle_bottom">E-mail</span>
@@ -52,16 +67,22 @@ function Profile(props) {
                 className="profile__input profile__input_bottom"
                 type="email"
                 id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                value={values.email || ''}
+                placeholder="Почта"
 
                 name="email"
-                required defaultValue={currentUser.email}
-                onChange={validator.handleChange}
+                required
+                onChange={handleChange}
               />
             </label>
-            <span className={`form__error ${validator.errors.email && validator.errors.email.length > 0 && 'form__error_active'}`}
-            >{validator.errors.email}
+            <span className={`form__error ${errors.email && errors.email.length > 0 && 'form__error_active'}`}
+            >{errors.email}
             </span>
-            <button className="profile__btn profile__btn_type_edit" disabled={!validator.isValid}
+            <button className={(isValid && (values.name !== currentUser.name
+              || values.email !== currentUser.email))
+              ? 'profile__btn profile__btn_type_edit'
+              : 'profile__btn profile__btn_type_edit-disabled '} disabled={(values.name === currentUser.name
+                && values.email === currentUser.email) || !isValid}
               type="submit">
               Редактировать
             </button>

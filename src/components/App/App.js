@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Route, Switch, Redirect, useHistory,
+  Route, Switch, Redirect, useLocation, useHistory,
 } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { currentUserContext } from '../context/CurrentUserContext';
@@ -19,6 +19,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState('');
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
+  const location = useLocation();
 
   const history = useHistory();
 
@@ -40,17 +41,19 @@ function App() {
   }
 
   React.useEffect(() => {
+    const path = location.pathname;
+
     const tockenCheck = () => {
       const token = localStorage.getItem('token');
       if (token) {
         mainApi.checkToken(token)
           .then(() => {
             setLoggedIn(true);
-            history.push('/movies');
+            history.push(path);
           })
           .catch((error) => {
             showInfoPopup(error);
-            history.push('/signin');
+            history.push('/');
           });
       }
     };
@@ -152,7 +155,7 @@ function App() {
           <Route exact path="/signup">
             {
               loggedIn
-                ? <Redirect to='/movies' />
+                ? <Redirect to='/404' />
                 : <Registration
                   onRegister={onRegister}
                   errorMessage={errorMessage}
@@ -186,6 +189,7 @@ function App() {
             path="*">
             <Redirect to="/404" />
           </Route>
+
         </Switch>
       </currentUserContext.Provider>
       <InfoTooltip

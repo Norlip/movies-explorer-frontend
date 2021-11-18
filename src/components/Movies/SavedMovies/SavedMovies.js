@@ -27,11 +27,6 @@ function SavedMovies(props) {
     setMoviesToShow(filterItems);
   }
 
-  function check(query, isShortMovie) {
-    const filterItems = filterFilms(savedMovies, query, !isShortMovie);
-    setMoviesToShow(filterItems);
-  }
-
   function handleMovieDelete(movie) {
     mainApi.dislikeMovie(movie.data._id)
       .then((movieId) => {
@@ -42,6 +37,15 @@ function SavedMovies(props) {
       })
       .catch((error) => props.showError(error));
   }
+  const [filterIsOn, setFilterIsOn] = React.useState(false);
+
+  // eslint-disable-next-line max-len
+  const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration < 40);
+
+  const onFilterClick = () => {
+    setFilterIsOn(!filterIsOn);
+  };
+
   return (
     <>
       {useRouteMatch(props.routesPathsHeaderArray) ? null : (
@@ -51,11 +55,11 @@ function SavedMovies(props) {
       )}
       <section className="movies">
         <SearchForm
-          searchCallBack={handleSeach} check={check}
+          searchCallBack={handleSeach} onFilterClick={onFilterClick}
         />
         <MoviesCardList
-          movies={moviesToShow}
-          isSaved={true}
+              movies={filterIsOn ? filterShortFilm(moviesToShow) : moviesToShow}
+              isSaved={true}
           onMovieDelete={handleMovieDelete}
         />
       </section>

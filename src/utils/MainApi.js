@@ -103,7 +103,6 @@ class MainApi {
 
 const mainApi = new MainApi({
   url: 'https://norlip.movie.nomoredomains.monster',
-
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

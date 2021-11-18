@@ -34,6 +34,7 @@
 }
 
 .notFound__link {
+  cursor: pointer;
   margin-bottom: 8vh;
   font-weight: normal;
   font-size: 14px;
