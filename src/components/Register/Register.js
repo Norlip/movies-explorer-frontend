@@ -1,7 +1,7 @@
 import React from 'react';
 import './Register.css';
 import { Link } from 'react-router-dom';
-import useFormWithValidation from '../../utils/FormValidator';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 import logo from '../../images/logo.svg';
 
 function Register(props) {

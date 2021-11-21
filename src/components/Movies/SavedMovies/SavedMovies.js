@@ -1,69 +1,74 @@
-import React from 'react';
-import './SavedMovies.css';
+import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
+
 import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import mainApi from '../../../utils/MainApi';
-import filterFilms from '../../../utils/filterFilms';
+import './SavedMovies.css';
+import { SHORT_MOVIE_DURATION_MIN } from '../../../utils/constants';
+import Preloader from '../Preloader/Preloader';
 import Header from '../../Header/Header';
-
 import Footer from '../../Footer/Footer';
 
-function SavedMovies(props) {
-  const [savedMovies, setSavedMovies] = React.useState([]);
-  const [moviesToShow, setMoviesToShow] = React.useState([]);
+function SavedMovies({
+  savedMovies, movies, isLoading, loadingError, onBookmarkClick, isMovieAdded,
+  routesPathsHeaderArray, loggedIn, routesPathsFooterArray,
 
-  React.useEffect(() => {
-    mainApi.getSavedMovies()
-      .then((movies) => {
-        setSavedMovies(movies);
-        setMoviesToShow(movies);
-      })
-      .catch((error) => props.showError(error));
-  }, [props]);
-
-  function handleSeach(query, isShortMovie) {
-    const filterItems = filterFilms(savedMovies, query, isShortMovie);
-    setMoviesToShow(filterItems);
-  }
-
-  function handleMovieDelete(movie) {
-    mainApi.dislikeMovie(movie.data._id)
-      .then((movieId) => {
-        const arr = savedMovies.filter((el) => el._id !== movieId._id);
-        setSavedMovies(arr);
-        const arr2 = moviesToShow.filter((el) => el._id !== movieId._id);
-        setMoviesToShow(arr2);
-      })
-      .catch((error) => props.showError(error));
-  }
-  const [filterIsOn, setFilterIsOn] = React.useState(false);
+}) {
+  const [filterIsOn, setFilterIsOn] = useState(false);
 
   // eslint-disable-next-line max-len
-  const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration < 40);
-
+  const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration < SHORT_MOVIE_DURATION_MIN);
   const onFilterClick = () => {
     setFilterIsOn(!filterIsOn);
   };
 
+  const [moviesToRender, setMoviesToRender] = useState([]);
+
+  React.useEffect(() => {
+    setMoviesToRender(movies);
+  }, [movies]);
+
+  const searchFilter = (data, searchQuery) => {
+    if (searchQuery) {
+      const regex = new RegExp(searchQuery, 'gi');
+      return data.filter((item) => regex.test(item.nameRU) || regex.test(item.nameEN));
+    }
+    return [];
+  };
+
+  const searchInSavedHandler = (searchQuery) => {
+    setMoviesToRender(searchFilter(movies, searchQuery));
+  };
+
   return (
     <>
-      {useRouteMatch(props.routesPathsHeaderArray) ? null : (
+      {useRouteMatch(routesPathsHeaderArray) ? null : (
         <Header
-          loggedIn={props.loggedIn}
+          loggedIn={loggedIn}
         />
       )}
       <section className="movies">
-        <SearchForm
-          searchCallBack={handleSeach} onFilterClick={onFilterClick}
-        />
-        <MoviesCardList
-              movies={filterIsOn ? filterShortFilm(moviesToShow) : moviesToShow}
-              isSaved={true}
-          onMovieDelete={handleMovieDelete}
-        />
+        <SearchForm onFilterClick={onFilterClick} searchCallBack={searchInSavedHandler} />
+
+        {isLoading && <Preloader />}
+
+        {!isLoading
+          && loadingError === ''
+          && (
+            <MoviesCardList
+              savedMovies={savedMovies}
+              movies={filterIsOn ? filterShortFilm(moviesToRender) : moviesToRender}
+              onBookmarkClick={onBookmarkClick}
+              isMovieAdded={isMovieAdded}
+            />
+          )}
+        {
+          !isLoading
+          && loadingError !== ''
+          && <div className="movies-notfound">Ничего не найдено</div>
+        }
       </section>
-      {useRouteMatch(props.routesPathsFooterArray) ? null : <Footer />}
+      {useRouteMatch(routesPathsFooterArray) ? null : <Footer />}
     </>
   );
 }

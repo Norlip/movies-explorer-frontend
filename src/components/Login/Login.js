@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import useFormWithValidation from '../../utils/FormValidator';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 import logo from '../../images/logo.svg';
 import '../Register/Register.css';
 

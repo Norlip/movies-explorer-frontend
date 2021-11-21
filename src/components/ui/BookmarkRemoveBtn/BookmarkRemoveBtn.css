@@ -1,0 +1,19 @@
+.movies-card:hover .bookmark-remove-btn{
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 5px 0 0 0;
+  box-sizing: border-box;
+  border: unset;
+  background: unset;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: url(../../../images/delete_icon.svg);
+  background-repeat: no-repeat;
+  background-size: 11px 11px;
+}
+
+.bookmark-remove-btn{
+  display: none;
+}

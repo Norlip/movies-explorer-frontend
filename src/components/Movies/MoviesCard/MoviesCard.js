@@ -1,91 +1,54 @@
 import React from 'react';
+import BookmarkBtn from '../../ui/BookmarkBtn/BookmarkBtn';
+import BookmarkRemoveBtn from '../../ui/BookmarkRemoveBtn/BookmarkRemoveBtn';
+import durationFormatter from '../../../utils/movieCardHelper';
 import './MoviesCard.css';
 
-function MoviesCard(props) {
-  const [isLiked, setIsLiked] = React.useState(props.data.isLiked);
-  React.useEffect(() => {
-    setIsLiked(props.data.isLiked);
-  }, [props.data.isLiked]);
+function MoviesCard({
+  savedMovies, movie, onBookmarkClick, isMovieAdded,
+}) {
+  const {
+    nameRU, duration, trailer, image,
+  } = movie;
 
-  function handleLikeClick() {
-    if (isLiked) {
-      setIsLiked(false);
-      props.onMovieDislike(props.data);
-    } else {
-      setIsLiked(true);
-      props.onMovieLike({
-        country: props.data.country || 'не указано',
-        director: props.data.director || 'не указано',
-        duration: props.data.duration || 'не указано',
-        description: props.data.description || 'не указано',
-        image: props.data.image || 'https://images.unsplash.com/photo-1588066801004-3d2a8ef323d7',
-        trailer: props.data.trailer || 'https://www.youtube.com',
-        nameRU: props.data.nameRU || 'не указано',
-        nameEN: props.data.nameEN || 'не указано',
-        movieId: props.data.movieId,
-        thumbnail: props.data.thumbnail,
-        year: props.data.year,
-      });
-    }
-  }
+  const isAdded = isMovieAdded(movie);
 
-  function handleDeleteClick() {
-    props.onMovieDelete(props);
-  }
-
+  const handleBookmarkClick = (e) => {
+    e.preventDefault();
+    onBookmarkClick(movie, !isAdded);
+  };
   function handleClick() {
-    if (props.data.trailer !== '') {
-      window.open(props.data.trailer);
+    if (movie.trailer !== '') {
+      window.open(movie.trailer);
     }
   }
 
-  function duration(mins) {
-    const hours = Math.trunc(mins / 60);
-    const minutes = mins % 60;
+  const removeHandler = () => {
+    onBookmarkClick(movie, false);
+  };
 
-    if (mins < 60) {
-      return `${minutes}м`;
-    }
-    return `${hours}ч ${minutes}м`;
-  }
   return (
+    <article className="movies-card">
+      <img
+        className="movies-card__image"
+        src={image}
+        alt={`Фотография к фильму ${nameRU}`}
+        onClick={handleClick}
 
-    <li>
-
-      <article className="movies-card">
-        <img
-          className="movies-card__image"
-          src={props.data.image}
-          alt={`фото ${props.data.nameRU}`}
-          onClick={handleClick}
-        />
-
-        <div className="movies-card__header">
-          <div className="movies-card__text-container">
-            <h2 className="movies-card__title">{props.data.nameRU}</h2>
-            <p className="movies-card__subtitle">{duration(props.data.duration)}</p>
-          </div>
-          {props.isSaved
-            ? <button
-              className="movies-card__delete"
-              type="button"
-              onClick={handleDeleteClick}
-              aria-label="Удалить из избранного"
-            >
-            </button>
-            : <button
-              className={`movies-card__save ${isLiked ? 'movies-card__saved' : 'movies-card__save'}`}
-              type="button"
-              onClick={handleLikeClick}
-              aria-label="Добавить в избранное"
-            >
-            </button>
-          }
+      />
+      <div className="movies-card__header">
+        <div className="movies-card__text-container">
+          <h2 className="movies-card__title">{nameRU}</h2>
+          <p className="movies-card__subtitle">{durationFormatter(duration)}</p>
         </div>
+        {savedMovies
+          ? <BookmarkRemoveBtn onClick={removeHandler} />
+          : <BookmarkBtn isAdded={isAdded} onClick={handleBookmarkClick} />}
+      </div>
+      <a className="movie-card__link" href={trailer} target="_blank" rel="noopener noreferrer">
 
-      </article>
-    </li>
-
+      </a>
+    </article >
   );
 }
 

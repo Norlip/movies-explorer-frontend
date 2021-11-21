@@ -97,10 +97,17 @@
   padding: 0;
   cursor: pointer;
 }
-
+.profile__form{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 .profile__btn_type_edit {
   color: #000;
   margin-top: 200px;
+}
+.profile__form-sbmt-success{
+  align-self: center;
 }
 .profile__btn_type_edit-disabled {
   color: #000;
@@ -108,7 +115,12 @@
   margin-top: 200px;
   cursor: not-allowed;
 }
-
+.profile__form-sbmt-success {
+  color: #2be080;
+}
+.profile__form-sbmt-failed {
+  color: #ee3465;
+}
 @media screen and (max-width: 568px) and (max-height: 320px) {
   .profile__btn_type_edit {
     margin-top: 50px;
@@ -120,5 +132,5 @@
   font-weight: 500;
 }
 .form__error_active {
-  margin-top: 10px;
+  margin-top: 16px;
 }

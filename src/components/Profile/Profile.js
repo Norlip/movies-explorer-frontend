@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 import './Profile.css';
-import { Link } from 'react-router-dom';
-
 import Header from '../Header/Header';
-import useFormWithValidation from '../../utils/FormValidator';
-import { currentUserContext } from '../context/CurrentUserContext';
 
-function Profile(props) {
-  const currentUser = React.useContext(currentUserContext);
+function Profile({
+  currentUser, logOutHandler, changeUserInfo, editIsSuccess, editIsFailed, loggedIn,
+}) {
   const {
     values,
     setValues,
@@ -17,85 +15,91 @@ function Profile(props) {
     setIsValid,
   } = useFormWithValidation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setValues(currentUser);
     setIsValid(true);
   }, [currentUser, setValues, setIsValid]);
 
-  function handleSubmit(e) {
+  const submitHandler = (e) => {
     e.preventDefault();
-    props.onUpdateUser({
-      name: 'name' in values ? values.name : currentUser.name,
-      email: 'email' in values ? values.email : currentUser.email,
-    });
-  }
+    changeUserInfo(values);
+  };
 
-  function handleLogOut() {
-    localStorage.clear();
-    props.onLogOut(false);
-  }
   return (
     <>
-      <Header loggedIn={props.loggedIn} />
+      <Header loggedIn={loggedIn} />
 
       <div className="profile">
-        <form className="profile__content"
-          onSubmit={handleSubmit}
-          noValidate>
-          <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
+        <form
+          className="profile__content"
+          onSubmit={submitHandler}
+          noValidate
+        >
+          <h1 className="profile__title">
+            {`Привет, ${currentUser.name}!`}
+          </h1>
           <div className="profile__form" name="user-data">
-            <label className="profile__label" htmlFor="user-name">
+
+            <label className="profile__label" htmlFor="name">
               <span className="profile__subtitle">Имя</span>
-              <input className="profile__input" type="text" minLength="1"
-                maxLength="30"
-                required
+              <input
+                className="profile__input"
                 id="name"
-                name="name" pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$"
+                required
+                minLength="2"
+                maxLength="30"
+                name="name"
+                type="text"
                 placeholder="Имя"
                 value={values.name || ''}
-                autoComplete="off"
                 onChange={handleChange}
-
+                autoComplete="off"
               />
             </label>
-            <span
-              className='form__error form__error_active'> {errors.name}
-            </span>
-            <label className="profile__label" htmlFor="user-email">
+            <span className="form__error form__error_active">{errors.name}</span>
+
+            <label className="profile__label" htmlFor="email">
               <span className="profile__subtitle profile__subtitle_bottom">E-mail</span>
               <input
                 className="profile__input profile__input_bottom"
-                type="email"
-                id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                value={values.email || ''}
-                placeholder="Почта"
-
-                name="email"
+                id="email"
                 required
+                name="email"
+                type="email"
+                placeholder="Почта"
+                value={values.email || ''}
                 onChange={handleChange}
+                autoComplete="off"
               />
             </label>
-            <span className={`form__error ${errors.email && errors.email.length > 0 && 'form__error_active'}`}
-            >{errors.email}
-            </span>
-            <button className={(isValid && (values.name !== currentUser.name
-              || values.email !== currentUser.email))
-              ? 'profile__btn profile__btn_type_edit'
-              : 'profile__btn profile__btn_type_edit-disabled '} disabled={(values.name === currentUser.name
+            <span className="form__error form__error_active">{errors.email}</span>
+
+            {editIsSuccess && <p className="profile__form-sbmt-success">Данные успешно изменены!</p>}
+            {editIsFailed && <p className="profile__form-sbmt-failed">Ошибка при изменении данных</p>}
+
+            <button
+              type="submit"
+              className={(isValid && (values.name !== currentUser.name
+                || values.email !== currentUser.email))
+                ? 'profile__btn profile__btn_type_edit'
+                : 'profile__btn profile__btn_type_edit-disabled'}
+              disabled={(values.name === currentUser.name
                 && values.email === currentUser.email) || !isValid}
-              type="submit">
+            >
               Редактировать
             </button>
           </div>
-          <Link to="/"
-            onClick={handleLogOut} className="profile__btn profile__btn_type_logout" type="button">
-            Выйти из аккаунта
-
-          </Link>
         </form>
+
+        <button
+          type="button"
+          className="profile__btn profile__btn_type_logout"
+          onClick={logOutHandler}
+        >
+          Выйти из аккаунта
+        </button>
       </div>
     </>
-
   );
 }
 

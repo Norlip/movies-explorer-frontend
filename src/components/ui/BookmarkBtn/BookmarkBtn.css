@@ -1,0 +1,40 @@
+.bookmark-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 5px 0 0 0;
+  box-sizing: border-box;
+  border: unset;
+  background: unset;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: url(../../../images/save.svg);
+  background-repeat: no-repeat;
+  background-size: 14px 12px;
+}
+
+.bookmark-btn_is-added {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border: unset;
+  background: unset;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: url(../../../images/saved.svg);
+  background-repeat: no-repeat;
+  background-size: 14px 12px;
+  margin: 5px 0 0 0;
+}
+
+.bookmark-btn:hover {
+  cursor: pointer;
+}
+
+.bookmark-btn:focus {
+  outline: none;
+}

@@ -1,42 +1,62 @@
-.card{
+.saved-movies {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 69vh;
+  padding: 0 70px 0 70px;
+}
+
+@media screen and (max-width: 900px) {
+  .saved-movies {
+    padding: 0 30px 0 30px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .saved-movies {
+    padding: 0 10px 0 10px;
+  }
+}
+.card {
   list-style: none;
   padding-top: 70px;
   width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-gap: 30px 24px;  font-family: Inter;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px 24px;
+  font-family: Inter;
 
   justify-items: center;
   padding-left: 0;
 }
 
-.movies-card-article__title{
-  font-size:15px;
-  line-height:18px;
-  font-weight:500;
+.movies-card-article__title {
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
 }
 
-.movies-card-article__image{
+.movies-card-article__image {
   object-fit: cover;
   width: 364px;
   height: 203px;
   cursor: pointer;
 }
 
-.movies-card-article__header{
+.movies-card-article__header {
   box-sizing: border-box;
   padding: 14px;
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
-.movies-card-article{
+.movies-card-article {
   width: 364px;
   box-shadow: 0 4px 30px rgb(0 0 0 / 8%);
 }
 
-.movies-card-article__subtitle{
+.movies-card-article__subtitle {
   font-weight: 400;
   font-size: 11px;
   line-height: 1.18;
@@ -44,7 +64,7 @@
   margin: 0 auto;
 }
 
-.movies-card-article__favorite-button{
+.movies-card-article__favorite-button {
   width: 30px;
   height: 30px;
   padding: 0;
@@ -55,14 +75,14 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: .5s ease;
+  transition: 0.5s ease;
   background: url(../../../images/saved.svg);
 }
 
-.movies-card-article__favorite-button-saved{
+.movies-card-article__favorite-button-saved {
   background: url(../../../images/save.svg);
 }
 
-.movies-card-article__favorite-button-remove{
+.movies-card-article__favorite-button-remove {
   background: url(../../../images/delete_icon.svg);
 }

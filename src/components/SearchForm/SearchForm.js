@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import './SearchForm.css';
-import useFormWithValidation from '../../utils/FormValidator';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 
 function SearchForm(props) {
   const [isChecked, setIsChecked] = React.useState(false);

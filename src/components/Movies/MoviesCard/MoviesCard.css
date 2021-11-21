@@ -6,7 +6,7 @@
   line-height: 16px;
   margin: 0;
 }
-.movies-card:hover .movies-card__delete {
+.movies-card:hover .bookmark-remove-btn {
   width: 30px;
   height: 30px;
   padding: 0;

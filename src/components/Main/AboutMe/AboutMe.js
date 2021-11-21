@@ -14,14 +14,14 @@ function AboutMe() {
           <h4 className="aboutMe__subtitle">Фронтенд-разработчик, 20 лет</h4>
           <p className="aboutMe__text">
             Родился и живу в Иваново, учусь на 3 курсе ИГХТУ, по специальности
-             анализ данных и финансовые технологии .
+            анализ данных и финансовые технологии .
             Начал кодить еще в 8 классе.
             Увлекался олимпиадным программированием. Занимал призовые места в региональных турнирах.
             Хочу заниматься и развиваться в frontend/backend сфере.
           </p>
           <a className="aboutMe__link" href="https://github.com/Norlip"> Github </a>
         </div>
-        <img className="aboutMe__photo" src={photo} alt="фото"></img>
+        <img className="aboutMe__photo" src={photo} alt="фото" />
       </div>
 
       <h5 className="aboutMe__portfolio-title">Портфолио</h5>

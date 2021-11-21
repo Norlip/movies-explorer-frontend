@@ -1,108 +1,120 @@
+const checkResponse = (res) => (res.ok
+  ? res.json()
+  : res.json()
+    .then((err) => Promise.reject(new Error(`${err.message} (${res.status} ${res.statusText})`))));
+
 class MainApi {
-  constructor(config) {
-    this._url = config.url;
-    this._headers = config.headers;
-  }
-
-  _responseResult(res) {
-    return res.json()
-      .then((json) => {
-        if (!res.ok) {
-          throw json;
-        }
-        return json;
-      });
-  }
-
-  register(name, email, password) {
-    return fetch(`${this._url}/signup`, {
-      headers: this._headers,
-      method: 'POST',
-      body: JSON.stringify({ name, email, password }),
-    }).then((res) => this._responseResult(res));
-  }
-
-  authorize(email, password) {
-    return fetch(`${this._url}/signin`, {
-      headers: this._headers,
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-    }).then((res) => this._responseResult(res))
-      .then((data) => {
-        localStorage.setItem('token', data.token);
-        return data;
-      });
+  constructor(options) {
+    this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
   }
 
   checkToken(token) {
-    return fetch(`${this._url}/users/me`, {
-      method: 'GET',
+    return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        ...this.headers,
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-    }).then((res) => this._responseResult(res));
+    })
+      .then((res) => checkResponse(res));
   }
 
-  updateUser(data) {
-    return fetch(`${this._url}/users/me`, {
+  signUp(name, email, password) {
+    return fetch(`${this._baseUrl}/signup`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({ name, email, password }),
+    }).then((res) => checkResponse(res));
+  }
+
+  signIn(email, password) {
+    return fetch(`${this._baseUrl}/signin`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({ email, password }),
+    }).then((res) => checkResponse(res));
+  }
+
+  getUserInfo(token) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then((res) => checkResponse(res));
+  }
+
+  saveUserInfo(name, email) {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        ...this._headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json',
+        Accept: 'application/json',
       },
-      body: JSON.stringify(data),
-    }).then((res) => this._responseResult(res));
+      body: JSON.stringify({
+        name,
+        email,
+      }),
+    })
+      .then((res) => checkResponse(res));
   }
 
   getSavedMovies() {
-    return fetch(`${this._url}/movies`, {
+    return fetch(`${this._baseUrl}/movies`, {
       method: 'GET',
       headers: {
-        ...this._headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json',
+        Accept: 'application/json',
       },
     })
-      .then((res) => this._responseResult(res));
+      .then((res) => checkResponse(res));
   }
 
-  getUserData() {
-    return fetch(`${this._url}/users/me`, {
-      method: 'GET',
-      headers: {
-        ...this._headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-      .then((res) => this._responseResult(res));
-  }
-
-  likeMovie(movie) {
-    return fetch(`${this._url}/movies`, {
-      method: 'POST',
-      headers: {
-        ...this._headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify(movie),
-    })
-      .then((res) => this._responseResult(res));
-  }
-
-  dislikeMovie(id) {
-    return fetch(`${this._url}/movies/${id}`, {
+  removeBookmark(movieId) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
       method: 'DELETE',
       headers: {
-        ...this._headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     })
-      .then((res) => this._responseResult(res));
+      .then((res) => checkResponse(res));
+  }
+
+  addBookmark(data) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        country: data.country || 'unknown',
+        director: data.director || 'unknown',
+        duration: data.duration || 'No data',
+        year: data.year || 'unknown',
+        description: data.description || 'No description',
+        image: data.image,
+        trailer: data.trailerLink || 'No trailer',
+        thumbnail: data.image || 'No image',
+        movieId: data.id || 'No data',
+        nameRU: data.nameRU,
+        nameEN: data.nameEN || 'No name',
+      }),
+    })
+      .then((res) => checkResponse(res));
   }
 }
 
 const mainApi = new MainApi({
-  url: 'https://norlip.movie.nomoredomains.monster',
+  baseUrl: 'https://norlip.movie.nomoredomains.monster',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
