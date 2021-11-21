@@ -1,0 +1,247 @@
+.aboutMe {
+  max-width: 1280px;
+  margin: 0 auto;
+  font-family: Inter;
+
+  margin: 110px 70px 0;
+}
+
+.title {
+  margin: 0;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 27px;
+  /* identical to box height */
+
+  letter-spacing: -0.04em;
+  font-weight: normal;
+  border-bottom: 1px solid #000;
+  padding-bottom: 23px;
+}
+
+.aboutMe__textbox {
+  margin-top: 66px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.aboutMe__photo {
+  width: 270px;
+  height: 327px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.aboutMe__title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 50px;
+  line-height: 58px;
+  /* identical to box height, or 116% */
+
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.aboutMe__subtitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  /* identical to box height, or 111% */
+  margin: 0;
+  margin: 18px 0px 26px;
+}
+
+.aboutMe__text {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  max-width: 600px;
+  margin: 0;
+  padding-bottom: 99px;
+  margin-right: 49px;
+}
+
+.aboutMe__link {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #000;
+  padding-right: 20px;
+}
+
+.aboutMe__link:hover {
+  opacity: 0.5;
+}
+
+.aboutMe__portfolio-title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 20px;
+  /* identical to box height, or 111% */
+
+  color: #a0a0a0;
+  margin: 0;
+  margin-top: 101px;
+}
+
+.aboutMe__portfolio-list-element:not(:last-child) {
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 19px;
+}
+
+.aboutMe__portfolio-list-element:not(:first-child) {
+  margin-top: 20px;
+}
+
+.aboutMe__portfolio-list {
+  list-style-type: none;
+  padding-left: 0;
+  padding-top: 50px;
+  margin: 0;
+}
+
+.aboutMe__portfolio-link {
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  color: #000;
+  font-size: 30px;
+  line-height: 50px;
+  letter-spacing: -0.04em;
+}
+
+.aboutMe__portfolio-link:hover {
+  opacity: 0.5;
+}
+@media screen and (max-width: 768px) {
+  .aboutMe {
+    margin: 90px 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutMe__photo {
+    width: 255px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutMe__title {
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutMe__subtitle {
+    font-size: 12px;
+    line-height: 18px;
+    padding-right: 49px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutMe__portfolio-title {
+    margin-top: 91px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutMe__portfolio-link {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aboutMe__text {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    width: 364px;
+    padding-bottom: 87px;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .aboutMe__textbox {
+    flex-direction: column-reverse;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .aboutMe__title {
+    margin-top: 30px;
+  }
+}
+@media screen and (max-width: 670px) {
+  .aboutMe__photo {
+    width: 175px;
+    height: 250px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .aboutMe {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .aboutMe__text {
+    padding-bottom: 50px;
+  }
+}
+@media screen and (max-width: 630px) {
+  .aboutMe__photo {
+    width: 292px;
+    height: 352px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .aboutMe__portfolio-title {
+    margin-top: 69px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .aboutMe__portfolio-link {
+    font-size: 18px;
+    line-height: 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .aboutMe__portfolio-text {
+    margin-right: 8px;
+  }
+}
+@media screen and (max-width: 420px) {
+  .aboutMe__text {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 16px;
+    width: 292px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .aboutMe {
+    margin: 50px 14px;
+  }
+}

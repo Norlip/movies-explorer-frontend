@@ -1,1 +1,3 @@
-# movies-explorer-frontend
+Фронт - api.norlip.movie.nomoredomains.rocks
+
+Бэк - norlip.movie.nomoredomains.monster
